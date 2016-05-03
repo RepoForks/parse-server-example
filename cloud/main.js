@@ -124,15 +124,12 @@ Parse.Cloud.afterSave("Gift", function(request) {
               type: "gift_updated",
               objectId: request.object.id
             }
-        }, {
-            success: function() {
-              // Push was successful
-              console.log("Push ['Your gift was just updated'] was sent to: " + owner);
-            },
-            error: function(error) {
-              // Handle error
-              console.error("Error sending a push. " + error.code + " : " + error.message);
-            }
+        }, {useMasterKey: true}).then(() => {
+            // Push was successful
+            console.log("Push ['Your gift was just updated'] was sent to: " + owner);
+        }, (e) => {
+            // Handle error
+            console.error("Error sending a push. " + error.code + " : " + error.message);
         });
 
     } else {
@@ -158,15 +155,12 @@ Parse.Cloud.afterSave("Gift", function(request) {
                               type: "friend_gift_updated",
                               objectId: owner
                             }
-                        }, {
-                            success: function() {
-                              // Push was successful
-                              console.log("Push ['A friend just updated his/her gift'] was sent to: " + friends);
-                            },
-                            error: function(error) {
-                              // Handle error
-                              console.error("Error sending a push. " + error.code + " : " + error.message);
-                            }
+                        }, {useMasterKey: true}).then(() => {
+                            // Push was successful
+                            console.log("Push ['A friend just updated his/her gift'] was sent to: " + friends);
+                        }, (e) => {
+                            // Handle error
+                            console.error("Error sending a push. " + error.code + " : " + error.message);
                         });
                     }
                 },
@@ -308,17 +302,14 @@ function pushNewFriendInvited(friend, invited, response) {
           type: "new_friend_invited",
           objectId: invited
         }
-    }, {
-        success: function() {
-            // Push was successful
-            console.log("Push ['New friend invited'] was sent to: " + friend);
-            response.success();
-        },
-        error: function(error) {
-            // Handle error
-            console.error("Error sending a push. " + error.code + " : " + error.message);
-            response.error("Uh oh, something went wrong");
-        }
+    }, {useMasterKey: true}).then(() => {
+        // Push was successful
+        console.log("Push ['New friend invited'] was sent to: " + friend);
+        response.success();
+    }, (e) => {
+        // Handle error
+        console.error("Error sending a push. " + error.code + " : " + error.message);
+        response.error("Uh oh, something went wrong");
     });
 
 }
