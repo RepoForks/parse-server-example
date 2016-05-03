@@ -127,7 +127,7 @@ Parse.Cloud.afterSave("Gift", function(request) {
         }, {useMasterKey: true}).then(() => {
             // Push was successful
             console.log("Push ['Your gift was just updated'] was sent to: " + owner);
-        }, (e) => {
+        }, (error) => {
             // Handle error
             console.error("Error sending a push. " + error.code + " : " + error.message);
         });
@@ -158,7 +158,7 @@ Parse.Cloud.afterSave("Gift", function(request) {
                         }, {useMasterKey: true}).then(() => {
                             // Push was successful
                             console.log("Push ['A friend just updated his/her gift'] was sent to: " + friends);
-                        }, (e) => {
+                        }, (error) => {
                             // Handle error
                             console.error("Error sending a push. " + error.code + " : " + error.message);
                         });
@@ -227,9 +227,9 @@ Parse.Cloud.define("askFriendForGift", function(request, response) {
         // Push was successful
         console.log("Push ['Ask friend for gift'] was sent to: " + friend);
         response.success("Ask sent!");
-    }, (e) => {
+    }, (error) => {
         // Handle error
-        console.error("Error sending a push. " + e.code + " : " + e.message);
+        console.error("Error sending a push. " + error.code + " : " + error.message);
         response.error("Uh oh, something went wrong");
     });
 
@@ -306,7 +306,7 @@ function pushNewFriendInvited(friend, invited, response) {
         // Push was successful
         console.log("Push ['New friend invited'] was sent to: " + friend);
         response.success();
-    }, (e) => {
+    }, (error) => {
         // Handle error
         console.error("Error sending a push. " + error.code + " : " + error.message);
         response.error("Uh oh, something went wrong");
