@@ -229,17 +229,14 @@ Parse.Cloud.define("askFriendForGift", function(request, response) {
         data: {
           type: "ask_friend_for_gift",
         }
-    }, {
-        success: function() {
-          // Push was successful
-          console.log("Push ['Ask friend for gift'] was sent to: " + friend);
-          response.success("Ask sent!");
-        },
-        error: function(error) {
-          // Handle error
-          console.error("Error sending a push. " + error.code + " : " + error.message);
-          response.error("Uh oh, something went wrong");
-        }
+    }, {useMasterKey: true}).then(() => {
+        // Push was successful
+        console.log("Push ['Ask friend for gift'] was sent to: " + friend);
+        response.success("Ask sent!");
+    }, (e) => {
+        // Handle error
+        console.error("Error sending a push. " + e.code + " : " + e.message);
+        response.error("Uh oh, something went wrong");
     });
 
 });
